@@ -102,7 +102,7 @@ xDialog = (function() {
         htmlContentsInner.appendChild(htmlMessageConfirm);
         htmlContentsInner.appendChild(htmlMessageDeny);
         var htmlDialog = xDialog.createDialogHTML(htmlContents, null, "confirm-dialog");
-        function closeSelfDialog (element) {
+        function closeSelfDialog () {
             htmlDialog.remove();
         };
         htmlDialog.querySelectorAll(".default-option")[0].focus();
@@ -138,7 +138,7 @@ xDialog = (function() {
         htmlContentsInner.appendChild(htmlMessageConfirm);
         var htmlDialog = xDialog.createDialogHTML(htmlContents, null, "alert-dialog");
         htmlDialog.querySelectorAll(".default-option")[0].focus();
-        function closeSelfDialog (element) {
+        function closeSelfDialog () {
             htmlDialog.remove();
         };
         return htmlDialog;
@@ -147,14 +147,13 @@ xDialog = (function() {
     xDialog.prompt = function(params) {
         var params = (arguments.length > 0 ? arguments[0] : {});
         var msg = params.message || params.msg || "This is a prompt. You can put text here.";
-        var msgConfirm = params.confirmMessage || params.confirmMsg || "Okay";
-        var msgDeny = params.denyMessage || params.denyMsg || "Cancel";
         var fnConfirm = params.onConfirm || function() {};
         var fnDone = params.onDone || function() {};
         var htmlContents = document.createElement("div");
         var htmlContentsInner = document.createElement("div");
         var htmlMessage = document.createElement("div");
         var htmlMessageInput = document.createElement("input");
+        var htmlBtnOk = document.createElement("button");
 
         htmlContents.style.width = "100%";
         htmlContents.style.height = "auto";
@@ -163,23 +162,32 @@ xDialog = (function() {
         htmlMessage.innerHTML = msg;
         htmlMessage.style.marginBottom = "10px";
         htmlMessageInput.className = "input-prompt";
-        htmlMessageInput.addEventListener("keydown", function(ev) {
-            if(ev.keyCode === 13) {
-                closeSelfDialog(htmlMessageInput);
+        
+            closeSelfDialog(htmlMessageInput);
+            setTimeout(function() {
                 fnConfirm(htmlMessageInput.value);
                 fnDone(htmlMessageInput.value);
+            }, 1);
+        htmlMessageInput.addEventListener("keydown", function(ev) {
+            if(ev.keyCode === 13) {
             }
         });
+        htmlBtnOk.onclick = function() {
+
+        }
         htmlContents.appendChild(htmlContentsInner);
         htmlContentsInner.appendChild(htmlMessage);
         htmlContentsInner.appendChild(htmlMessageInput);
+        htmlContentsInner.appendChild(htmlBtnOk);
         var htmlDialog = xDialog.createDialogHTML(htmlContents, null, "prompt-dialog");
-        function closeSelfDialog (element) {
+        function closeSelfDialog () {
             htmlDialog.remove();
         };
         htmlDialog.querySelectorAll(".input-prompt")[0].focus();
         return htmlDialog;
     };
+
+    return xDialog;
 
 })();
 
