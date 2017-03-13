@@ -1,4 +1,4 @@
-/* Licensed under "use it as you want literally". */
+/* Licensed under: YOU CAN EMBED THIS SOFTWARE WHEREVER YOU WANT WITHOUT PERMISSION, OR EXTEND IT, NO PROBLEM */
 /* Examples can be found at https://github.com/philocoder/x-dialogs/example.html */
 
 xDialog = (function() {
