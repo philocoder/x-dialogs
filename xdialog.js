@@ -93,9 +93,6 @@ xDialog = (function() {
         htmlMessage.style.marginBottom = "10px";
         htmlMessageConfirm.textContent = msgConfirm;
         htmlMessageConfirm.className = "default-option";
-        htmlMessageConfirm.addEventListener("click", closeSelfDialog);
-        htmlMessageConfirm.addEventListener("click", fnConfirm);
-        htmlMessageConfirm.addEventListener("click", fnDone);
         htmlMessageDeny.textContent = msgDeny;
         htmlMessageDeny.addEventListener("click", closeSelfDialog);
         htmlMessageDeny.addEventListener("click", fnDeny);
@@ -105,7 +102,9 @@ xDialog = (function() {
         htmlContentsInner.appendChild(htmlMessageConfirm);
         htmlContentsInner.appendChild(htmlMessageDeny);
         var htmlDialog = xDialog.createDialogHTML(htmlContents, null, "confirm-dialog");
-        var closeSelfDialog = htmlDialog.remove;
+        htmlMessageConfirm.addEventListener("click", function(ev) {htmlDialog.remove();});
+        htmlMessageConfirm.addEventListener("click", fnConfirm);
+        htmlMessageConfirm.addEventListener("click", fnDone);
         htmlDialog.querySelectorAll(".default-option")[0].focus();
         return htmlDialog;
     };
@@ -116,12 +115,10 @@ xDialog = (function() {
         var msgConfirm = params.confirmMessage || params.confirmMsg || "Okay";
         var fnConfirm = params.onConfirm || function() {};
         var fnDone = params.onDone || function() {};
-        //
-        var htmlContents = document.createElement("div");
+       	var htmlContents = document.createElement("div");
         var htmlContentsInner = document.createElement("div");
         var htmlMessage = document.createElement("div");
         var htmlMessageConfirm = document.createElement("button");
-        //
         htmlContents.style.width = "100%";
         htmlContents.style.height = "auto";
         htmlContentsInner.style.width = "100%";
@@ -130,7 +127,6 @@ xDialog = (function() {
         htmlMessage.style.marginBottom = "10px";
         htmlMessageConfirm.textContent = msgConfirm;
         htmlMessageConfirm.className = "default-option";
-        //
         htmlContents.appendChild(htmlContentsInner);
         htmlContentsInner.appendChild(htmlMessage);
         htmlContentsInner.appendChild(htmlMessageConfirm);
@@ -152,7 +148,6 @@ xDialog = (function() {
         var htmlMessage = document.createElement("div");
         var htmlMessageInput = document.createElement("input");
         var htmlBtnOk = document.createElement("button");
-
         htmlContents.style.width = "100%";
         htmlContents.style.height = "auto";
         htmlContentsInner.style.width = "100%";
