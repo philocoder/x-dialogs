@@ -1,3 +1,6 @@
+/* Licensed under "use it as you want literally". */
+/* Examples can be found at https://github.com/philocoder/x-dialogs/example.html */
+
 xDialog = (function() {
     
     var xDialog = {};
@@ -102,9 +105,7 @@ xDialog = (function() {
         htmlContentsInner.appendChild(htmlMessageConfirm);
         htmlContentsInner.appendChild(htmlMessageDeny);
         var htmlDialog = xDialog.createDialogHTML(htmlContents, null, "confirm-dialog");
-        function closeSelfDialog () {
-            htmlDialog.remove();
-        };
+        var closeSelfDialog = htmlDialog.remove;
         htmlDialog.querySelectorAll(".default-option")[0].focus();
         return htmlDialog;
     };
@@ -129,18 +130,15 @@ xDialog = (function() {
         htmlMessage.style.marginBottom = "10px";
         htmlMessageConfirm.textContent = msgConfirm;
         htmlMessageConfirm.className = "default-option";
-        htmlMessageConfirm.addEventListener("click", closeSelfDialog);
-        htmlMessageConfirm.addEventListener("click", fnConfirm);
-        htmlMessageConfirm.addEventListener("click", fnDone);
         //
         htmlContents.appendChild(htmlContentsInner);
         htmlContentsInner.appendChild(htmlMessage);
         htmlContentsInner.appendChild(htmlMessageConfirm);
         var htmlDialog = xDialog.createDialogHTML(htmlContents, null, "alert-dialog");
+        htmlMessageConfirm.addEventListener("click", function(ev) {htmlDialog.remove();});
+        htmlMessageConfirm.addEventListener("click", fnConfirm);
+        htmlMessageConfirm.addEventListener("click", fnDone);
         htmlDialog.querySelectorAll(".default-option")[0].focus();
-        function closeSelfDialog () {
-            htmlDialog.remove();
-        };
         return htmlDialog;
     };
 
@@ -162,64 +160,31 @@ xDialog = (function() {
         htmlMessage.innerHTML = msg;
         htmlMessage.style.marginBottom = "10px";
         htmlMessageInput.className = "input-prompt";
-        
-            closeSelfDialog(htmlMessageInput);
-            setTimeout(function() {
-                fnConfirm(htmlMessageInput.value);
-                fnDone(htmlMessageInput.value);
-            }, 1);
-        htmlMessageInput.addEventListener("keydown", function(ev) {
-            if(ev.keyCode === 13) {
-            }
-        });
-        htmlBtnOk.onclick = function() {
-
-        }
+        htmlBtnOk.textContent = "Ok";
         htmlContents.appendChild(htmlContentsInner);
         htmlContentsInner.appendChild(htmlMessage);
         htmlContentsInner.appendChild(htmlMessageInput);
         htmlContentsInner.appendChild(htmlBtnOk);
         var htmlDialog = xDialog.createDialogHTML(htmlContents, null, "prompt-dialog");
-        function closeSelfDialog () {
-            htmlDialog.remove();
-        };
         htmlDialog.querySelectorAll(".input-prompt")[0].focus();
+        var fnDialogClosed = function() {
+            htmlDialog.remove();
+            setTimeout(function() {
+                fnConfirm(htmlMessageInput.value);
+                fnDone(htmlMessageInput.value);
+            }, 1);
+        };
+        htmlMessageInput.addEventListener("keydown", function(ev) {
+            if(ev.keyCode === 13) {
+            	fnDialogClosed();
+            }
+        });
+        htmlBtnOk.onclick = function() {
+			fnDialogClosed();
+        }
         return htmlDialog;
     };
 
     return xDialog;
 
 })();
-
-/*
-
-xDialog.confirm({
-    message: "This is an alert", 
-    onConfirm: function() {
-        alert("You did it!");
-    }, 
-    onDeny: function() {
-        alert("OK, next time maybe.");
-    },
-    confirmMessage: "Yes, I'm sure",
-    denyMessage: "No",
-});
-
-xDialog.alert({
-    message: "This is an alert",
-    onConfirm: function () {
-        alert("Here we have accepted.");
-    }
-});
-
-xDialog.prompt({
-    message: "Ask for some text with prompt",
-    onConfirm: function (text) {
-        alert("You provided a text like: " + text);
-    },
-    onDeny: function() {
-        alert("You won't scape");
-    }
-});
-
-//*/
