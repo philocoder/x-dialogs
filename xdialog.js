@@ -1,6 +1,10 @@
 /* Licensed under: YOU CAN EMBED THIS SOFTWARE WHEREVER YOU WANT WITHOUT PERMISSION, OR EXTEND IT, NO PROBLEM */
 /* Examples can be found at https://github.com/philocoder/x-dialogs/example.html */
 
+/*********************
+ ****** xDialog ******
+ *********************/
+
 xDialog = (function() {
     
     var xDialog = {};
@@ -97,9 +101,6 @@ xDialog = (function() {
         htmlMessageConfirm.textContent = msgConfirm;
         htmlMessageConfirm.className = "default-option";
         htmlMessageDeny.textContent = msgDeny;
-        htmlMessageDeny.addEventListener("click", closeSelfDialog);
-        htmlMessageDeny.addEventListener("click", fnDeny);
-        htmlMessageConfirm.addEventListener("click", fnDone);
         htmlContents.appendChild(htmlContentsInner);
         htmlContentsInner.appendChild(htmlMessage);
         htmlContentsInner.appendChild(htmlMessageConfirm);
@@ -108,6 +109,9 @@ xDialog = (function() {
         htmlMessageConfirm.addEventListener("click", function(ev) {htmlDialog.remove();});
         htmlMessageConfirm.addEventListener("click", fnConfirm);
         htmlMessageConfirm.addEventListener("click", fnDone);
+        htmlMessageDeny.addEventListener("click", function(ev) {htmlDialog.remove();});
+        htmlMessageDeny.addEventListener("click", fnDeny);
+        htmlMessageDeny.addEventListener("click", fnDone);
         htmlDialog.querySelectorAll(".default-option")[0].focus();
         return htmlDialog;
     };
@@ -118,7 +122,7 @@ xDialog = (function() {
         var msgConfirm = params.confirmMessage || params.confirmMsg || "Okay";
         var fnConfirm = params.onConfirm || function() {};
         var fnDone = params.onDone || function() {};
-       	var htmlContents = document.createElement("div");
+        var htmlContents = document.createElement("div");
         var htmlContentsInner = document.createElement("div");
         var htmlMessage = document.createElement("div");
         var htmlMessageConfirm = document.createElement("button");
@@ -180,11 +184,11 @@ xDialog = (function() {
         };
         htmlMessageInput.addEventListener("keydown", function(ev) {
             if(ev.keyCode === 13) {
-            	fnDialogClosed();
+                fnDialogClosed();
             }
         });
         htmlBtnOk.onclick = function() {
-			fnDialogClosed();
+            fnDialogClosed();
         }
         return htmlDialog;
     };
@@ -192,6 +196,3 @@ xDialog = (function() {
     return xDialog;
 
 })();
-
-
-
