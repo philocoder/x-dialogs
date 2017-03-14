@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>xDialogs example</title>
+		<script src="xdialog.js"></script>
+	</head>
+	<body>
+		<h1>xDialog - Examples</h1>
+		<button onclick="runAlertExample()">Alert</button>
+
+		<button onclick="runPromptExample()">Prompt</button>
+
+		<button onclick="runConfirmExample()">Confirm</button>
+
+  <script>
+  
+  var runConfirmExample = function() {
+    xDialog.confirm({
+      msg: 'This is a confirm',
+      confirmMsg: "Yeah",
+      denyMsg: "Nope",
+      onConfirm: function(value) {
+        xDialog.alert({
+          msg: 'So, you confirm'
+        });
+      },
+      onDeny: function(value) {
+        xDialog.alert({
+          msg: 'So, you deny'
+        });
+      }
+    });
+  };
+  
+  var runAlertExample = function() {
+    xDialog.alert({
+  		msg: 'This is an alert',
+  		confirmMsg: 'Okay, I understand. And this is a custom confirm message in the alert.'
+  	});
+  };
+  
+  var runPromptExample = function() {
+    xDialog.prompt({
+      msg: 'This is a prompt',
+      onConfirm: function(value) {
+        xDialog.alert({
+          msg:value + '... ... ... really?'
+        });
+      }
+    });
+  };
+  
+  </script>
+
+
+	</body>
+</html>
