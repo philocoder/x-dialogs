@@ -28,13 +28,16 @@ xDialog = (function() {
         var html = document.createElement("div");
         html.className = "xdialog";
         html.style.display = "block";
+        html.style.fontFamily = "Roboto";
         html.style.position = "fixed";
         html.style.top = "0px";
         html.style.bottom = "0px";
         html.style.left = "0px";
         html.style.right = "0px";
+        html.style.boxSizing = "border-box";
         html.style.backgroundColor = "rgba(0,0,0,0.7)";
         html.style.color = "white";
+        html.style.padding = "10px";
         html.style.zIndex = "9999";
         var htmlContainer = document.createElement("div");
         htmlContainer.className = "xdialog-container";
@@ -143,6 +146,7 @@ xDialog = (function() {
         var msg = params.message || params.msg || "This is a prompt. You can put text here.";
         var fnConfirm = params.onConfirm || function() {};
         var fnDone = params.onDone || function() {};
+        var defaultValue = params.default || "";
         var htmlContents = document.createElement("div");
         var htmlContentsInner = document.createElement("div");
         var htmlMessage = document.createElement("div");
@@ -155,13 +159,18 @@ xDialog = (function() {
         htmlMessage.innerHTML = msg;
         htmlMessage.style.marginBottom = "10px";
         htmlMessageInput.className = "input-prompt";
+        htmlMessageInput.style.display = "block";
+        htmlMessageInput.style.width = "100%";
+        htmlMessageInput.style.marginBottom = "10px";
         htmlBtnOk.textContent = "Ok";
         htmlContents.appendChild(htmlContentsInner);
         htmlContentsInner.appendChild(htmlMessage);
         htmlContentsInner.appendChild(htmlMessageInput);
         htmlContentsInner.appendChild(htmlBtnOk);
         var htmlDialog = xDialog.createDialogHTML(htmlContents, null, "prompt-dialog");
-        htmlDialog.querySelectorAll(".input-prompt")[0].focus();
+        var htmlInput = htmlDialog.querySelectorAll(".input-prompt")[0];
+        htmlInput.setAttribute("value", defaultValue);
+        htmlInput.focus();
         var fnDialogClosed = function() {
             htmlDialog.remove();
             setTimeout(function() {
@@ -183,3 +192,6 @@ xDialog = (function() {
     return xDialog;
 
 })();
+
+
+
