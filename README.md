@@ -59,12 +59,12 @@ The parameters supported for each of these methods are:
 Method name | xDialog.alert | xDialog.prompt | xDialog.confirm
 ----------- | ------------- | -------------- | ---------------
 msg / message | Yes | Yes | Yes
-confirmMsg / confirmMessage | Yes | Yes | Yes
-denyMsg / denyMessage | - | - | Yes
-onDone | Yes | Yes | Yes
-onConfirm | Yes | Yes | Yes
-onDeny | - | - | Yes
-default | - | Yes | -
+confirmMsg / confirmMessage (text) | Yes | Yes | Yes
+denyMsg / denyMessage (text) | - | - | Yes
+onDone (function) | Yes | Yes | Yes
+onConfirm (function) | Yes | Yes | Yes
+onDeny (function) | - | - | Yes
+default (text) | - | Yes | -
 
 
 
